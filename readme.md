@@ -1,0 +1,1 @@
+Just reviewing react basic and building a few small projects
