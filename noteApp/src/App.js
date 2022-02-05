@@ -9,12 +9,12 @@ import './index.css';
 
 export default function App() {
     
-    const [notes, setNotes] = React.useState(() => { 
-        JSON.parse(localStorage.getItem("notes")) || [] 
-    })
-    
+    const [notes, setNotes] = React.useState(
+        () => JSON.parse(localStorage.getItem("notes")) || [] 
+    )
+
     const [currentNoteId, setCurrentNoteId] = React.useState(
-        (notes[0] && notes[0].id) || ""
+        (notes && notes[0] && notes[0].id) || ""
     )
 
     React.useEffect(() => {
@@ -31,11 +31,25 @@ export default function App() {
     }
     
     function updateNote(text) {
-        setNotes(oldNotes => oldNotes.map(oldNote => {
-            return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text }
-                : oldNote
-        }))
+        setNotes(oldNotes => {
+            let updatedNotes = [];
+            oldNotes.forEach(oldNote => {
+                if(oldNote.id === currentNoteId) {
+                    updatedNotes.unshift({ ...oldNote, body: text });
+                } else {
+                    updatedNotes.push(oldNote)
+                }
+            })
+
+            return updatedNotes;
+        })
+
+
+        // setNotes(oldNotes => oldNotes.map(oldNote => {
+        //     return oldNote.id === currentNoteId
+        //         ? { ...oldNote, body: text }
+        //         : oldNote
+        // }))
     }
     
     function findCurrentNote() {
