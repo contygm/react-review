@@ -56,9 +56,9 @@ export default function App() {
      *    can be passed in during the onClick event handler
      */
     
-     function deleteNote(event, noteId) {
+    function deleteNote(event, noteId) {
         event.stopPropagation()
-        // Your code here
+        setNotes(oldNotes => oldNotes.filter(oldNote => oldNote.id !== currentNoteId))
     }
     
     function findCurrentNote() {
@@ -82,6 +82,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 
