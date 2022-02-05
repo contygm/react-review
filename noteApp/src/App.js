@@ -6,7 +6,6 @@ import Split from "react-split"
 import {nanoid} from "nanoid"
 import './index.css';
 
-
 export default function App() {
     
     const [notes, setNotes] = React.useState(
@@ -43,13 +42,23 @@ export default function App() {
 
             return updatedNotes;
         })
+    }
 
-
-        // setNotes(oldNotes => oldNotes.map(oldNote => {
-        //     return oldNote.id === currentNoteId
-        //         ? { ...oldNote, body: text }
-        //         : oldNote
-        // }))
+    /**
+     * Challenge: complete and implement the deleteNote function
+     * 
+     * Hints: 
+     * 1. What array method can be used to return a new
+     *    array that has filtered out an item based 
+     *    on a condition?
+     * 2. Notice the parameters being based to the function
+     *    and think about how both of those parameters
+     *    can be passed in during the onClick event handler
+     */
+    
+     function deleteNote(event, noteId) {
+        event.stopPropagation()
+        // Your code here
     }
     
     function findCurrentNote() {
