@@ -35,6 +35,13 @@ main {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.green{
+  background-color: #59E391;
+}
+
+.white{
   background-color: white;
 }
 
