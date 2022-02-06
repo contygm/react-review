@@ -1,6 +1,7 @@
 import React from "react"
 import Die from "./components/Die"
 import {nanoid} from "nanoid"
+import Confetti from 'react-confetti'
 import './index.css';
 
 export default function App() {
@@ -23,11 +24,16 @@ export default function App() {
     }
 
     function rollDice() {
-        setDice(prevDice =>
-            prevDice.map((d) => {
-                return d.isHeld ? d : makeNewDie();
-            })
-        )
+        if(win) {
+            setDice(allNewDice())
+            setWin(false);
+        } else {
+            setDice(prevDice =>
+                prevDice.map((d) => {
+                    return d.isHeld ? d : makeNewDie();
+                })
+            );
+        }
     }
 
     function toggleSelected(id) {
@@ -45,13 +51,13 @@ export default function App() {
         const allSameValue = dice.every(d => d.value === dice[0].value);
         if(allHeld && allSameValue) {
             setWin(true);
-            console.log("YOU WIN")
         }
     }, [dice])
 
     return (
         <main>
             <div className="dice-container">
+                {win && <Confetti />}
                 {dice.map((die)=> {
                     return <Die 
                         key={die.id} 
@@ -61,7 +67,7 @@ export default function App() {
                     />
                 })}
             </div>
-            <button className="roll-dice" onClick={rollDice}>Roll</button>
+            <button className="roll-dice" onClick={rollDice}>{win ? "New Game" : "Roll"}</button>
         </main>
     )
 }
