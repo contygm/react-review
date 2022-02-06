@@ -1,0 +1,109 @@
+{
+    "habitats":
+    [{
+            "id": 0,
+            "name": "Plains",
+            "description":"Very boring and grassy area",
+            "height":3,
+            "width":3,
+            "image":"https://placekitten.com/300/300",
+            "price":150,
+            "level_unlock":1,
+            "active_time":1641854660
+        },{
+            "id": 1,
+            "name": "Aquatic",
+            "description":"Underwater, very mysterious",
+            "height":4,
+            "width":4,
+            "image":"https://placekitten.com/400/400",
+            "price":200,
+            "level_unlock":3,
+            "active_time":1641854660
+        },{
+            "id": 2,
+            "name": "Fireswamp",
+            "description":"A deadly jungle filled with lightning sand and flame spurts",
+            "height":4,
+            "width":5,
+            "image":"https://placekitten.com/500/400",
+            "price":500,
+            "level_unlock":5,
+            "active_time":1641854660
+        }
+    ],
+    "dinosaurs":
+    [{
+            "id": 0,
+            "name": "Brontosaurus",
+            "description":"Thunder lizard, long in the neck",
+            "habitats": [0],
+            "image":"https://placekitten.com/200/400",
+            "price":80,
+            "level_unlock":1,
+            "active_time":1641854660,
+            "loot":0,
+            "loot_interval":1800
+        },{
+            "id": 1,
+            "name": "Velociraptor",
+            "description":"Fast and scary, probably know how to pick locks",
+            "habitats": [2],
+            "image":"https://placekitten.com/200/400",
+            "price":300,
+            "level_unlock":5,
+            "active_time":1641854660,
+            "loot":1,
+            "loot_interval":18000
+        },{
+            "id": 2,
+            "name": "Tyrannosaurus Rex",
+            "description":"King of the lizards, sharp of tooth",
+            "habitats": [0, 2],
+            "image":"https://placekitten.com/200/400",
+            "price":250,
+            "level_unlock":4,
+            "active_time":1641854660,
+            "loot":1,
+            "loot_interval":3600
+        },{
+            "id": 3,
+            "name": "Liopleurodon",
+            "description":"Still smaller than a blue whale",
+            "habitats": [1],
+            "image":"https://placekitten.com/200/400",
+            "price":160,
+            "level_unlock":3,
+            "active_time":1641854660,
+            "loot":2,
+            "loot_interval":9000
+        }
+    ],
+    "loot":
+    [{
+        "id": 0,
+        "xp": 5,
+        "currency": 10,
+        "drop_chances": {
+            "egg": 5,
+            "rock": 95
+        }
+    },{
+        "id": 1,
+        "xp": 10,
+        "currency": 15,
+        "drop_chances": {
+            "egg": 15,
+            "rock": 85
+        }
+    },{
+        "id": 2,
+        "xp": 10,
+        "currency": 10,
+        "drop_chances": {
+            "egg": 10,
+            "kelp": 20,
+            "rock": 70
+        }
+    }]
+}
