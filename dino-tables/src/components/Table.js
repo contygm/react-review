@@ -36,7 +36,6 @@ export default function Table(props) {
 			}
 
 		});
-		console.log("res", res)
 
 		return res;
 	}
@@ -55,6 +54,12 @@ export default function Table(props) {
 		rows,
 		prepareRow,
    } = useTable({ columns, data });
+	const Buttons = () => (
+		<div>
+			<button onClick={(e) => props.deleteDino(id)}>Delete</button>
+			<button>Edit</button>
+		</div>
+	)
 
     return (
        <div>
@@ -98,6 +103,7 @@ export default function Table(props) {
 						</td>
 						)
 					})}
+					{props.editable && <Buttons />}
 					</tr>
 				)
 				})}
