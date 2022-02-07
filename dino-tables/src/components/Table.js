@@ -25,18 +25,54 @@ export default function Table(props) {
 		return keys;
 	}
 
-	function getRows(row) {
-		let rows = [];
+	// addRow
+	// editableRow
+	// readonlyRow
 
-		Object.keys(row).forEach((key, j) => {
-			const cell = row[key];
-			if(typeof cell === "object" && !Array.isArray(cell)) {
-				return Object.keys(cell).forEach((subKey, i) => {
-					rows.push(<td key={nanoid()} >{cell[subKey] === undefined ? "N/a" : cell[subKey]}</td>)
-				})
-			}
-			rows.push(<td key={nanoid()} >{row[key]}</td>)
-		})
+	function getRows(row, isDino) {
+		let rows = [];
+		if(!isDino) {
+			Object.keys(row).forEach(key => {
+				const cell = row[key];
+				if(typeof cell === "object" && !Array.isArray(cell)) {
+					return Object.keys(cell).forEach(subKey => {
+						rows.push(<td key={nanoid()} >{cell[subKey]}</td>)
+					})
+				}
+				rows.push(<td key={nanoid()} >{row[key]}</td>)
+			})
+		} else {
+			Object.keys(row).forEach(key => {
+				const cell = row[key];
+				if(typeof cell === "object" && !Array.isArray(cell)) {
+					return Object.keys(cell).forEach(subKey => {
+						rows.push(
+							<td key={nanoid()} >
+								<input
+									type="text"
+									required="required"
+									name={subKey}
+									value={cell[subKey]}
+									// onChange={handleEditFormChange}
+									></input>
+							</td>
+						)
+					})
+				}
+				rows.push(
+					<td key={nanoid()} >
+						<input
+							type="text"
+							required="required"
+							name={key}
+							value={row[key]}
+							// onChange={handleEditFormChange}
+						></input>
+					</td>
+				)
+			})
+		}
+
 		return rows;
 	}
 
@@ -57,7 +93,7 @@ export default function Table(props) {
 				<tbody>
 					{props.data.map((row, i) => {
 						return <tr key={nanoid()}>
-							{getRows(row)}
+							{getRows(row, isDino)}
 							{isDino && <td>
 								<Button>Edit</Button>
 								<Button onClick={(e) => props.deleteRow(e, row.id)}>Delete</Button>
