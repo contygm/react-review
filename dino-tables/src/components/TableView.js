@@ -1,6 +1,7 @@
 import React from "react"
 import Table from "./Table";
 
+
 export default function TableView(props) {
 	const [dino, setDino] = React.useState(props.allData["dinosaurs"]);
 

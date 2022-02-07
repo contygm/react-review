@@ -1,4 +1,6 @@
 import React from "react"
+import ReadonlyCell from "./ReadonlyCell"
+import FormCell from "./FormCell"
 import {nanoid} from "nanoid"
 import Button from 'react-bootstrap/Button';
 
@@ -25,51 +27,32 @@ export default function Table(props) {
 		return keys;
 	}
 
-	// addRow
-	// editableRow
-	// readonlyRow
-
+	// TODO: addRow visually
+	// TODO: addRow -> save row -> save Over row.id OR push new row
+	// TODO: save edits
+	
+	// TODO: refactor
 	function getRows(row, isDino) {
 		let rows = [];
-		if(!isDino) {
+		if(!isDino) { // readonly rows
 			Object.keys(row).forEach(key => {
 				const cell = row[key];
 				if(typeof cell === "object" && !Array.isArray(cell)) {
 					return Object.keys(cell).forEach(subKey => {
-						rows.push(<td key={nanoid()} >{cell[subKey]}</td>)
+						rows.push(<ReadonlyCell key={nanoid()} value={cell[subKey]}/>)
 					})
 				}
-				rows.push(<td key={nanoid()} >{row[key]}</td>)
+				rows.push(<ReadonlyCell key={nanoid()} value={row[key]}/>)
 			})
-		} else {
+		} else { // editable rows
 			Object.keys(row).forEach(key => {
 				const cell = row[key];
 				if(typeof cell === "object" && !Array.isArray(cell)) {
 					return Object.keys(cell).forEach(subKey => {
-						rows.push(
-							<td key={nanoid()} >
-								<input
-									type="text"
-									required="required"
-									name={subKey}
-									value={cell[subKey]}
-									// onChange={handleEditFormChange}
-									></input>
-							</td>
-						)
+						rows.push(<FormCell key={nanoid()} value={cell[subKey]} name={key}/>)
 					})
 				}
-				rows.push(
-					<td key={nanoid()} >
-						<input
-							type="text"
-							required="required"
-							name={key}
-							value={row[key]}
-							// onChange={handleEditFormChange}
-						></input>
-					</td>
-				)
+				rows.push(<FormCell key={nanoid()} value={row[key]} name={key}/>)
 			})
 		}
 
