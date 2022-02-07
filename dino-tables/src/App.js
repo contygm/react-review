@@ -1,6 +1,8 @@
 import React from "react"
 import data from './fs-sample-data.json';
-import Table from "./components/Table";
+import Sidebar from "./components/Sidebar";
+import TableView from "./components/TableView";
+import Split from "react-split"
 import './index.css';
 
 
@@ -23,17 +25,18 @@ export default function App() {
     
     return (
         <div>
-            <h2>Loot: {loot.length}</h2>
-            <h2>Dino: {dino.length}</h2>
-            <h2>Habitat: {habitat.length}</h2>
-            
-            <button>Add</button>
-            <button>Delete</button>
-            <button>Edit</button>
-            <Table data={dino} editable={true} deleteDino={deleteDino}/>
-            <Table data={habitat} editable={false}/>
-            <Table data={loot} editable={false}/>
-
+            <Split 
+                sizes={[20, 80]} 
+                direction="horizontal" 
+                className="split"
+                gutterSize={5}
+            >
+                <Sidebar/>
+                <TableView />
+            {/* <Table data={dino} deleteDino={deleteDino}/>
+            <Table data={habitat} />
+            <Table data={loot} /> */}
+            </Split>
         </div>
         
     )

@@ -5,3 +5,28 @@
 body {
   margin: 0;
 }
+
+/* Basic split view */
+.sidebar {
+  width: 20%;
+  height: 100vh;
+}
+
+.table-view {
+  width: 80%;
+  height: 100vh;
+}
+
+.split {
+  display: flex;
+}
+
+.gutter {
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal:hover {
+  cursor: col-resize;
+}
