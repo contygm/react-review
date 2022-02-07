@@ -17,8 +17,9 @@ export default function App() {
             <h2>Dino: {dino.length}</h2>
             <h2>Habitat: {habitat.length}</h2>
             <Table data={dino} />
-            <Table data={loot} />
             <Table data={habitat} />
+            <Table data={loot} />
+
         </div>
         
     )

@@ -3,59 +3,51 @@ import { useTable } from 'react-table'
 
 export default function Table(props) {
 	
-
 	function getKeyArray(dataArray) {
         return Object.keys(dataArray[0]).map(key => {
 			if(typeof dataArray[0][key] === 'object' && !Array.isArray(dataArray[0][key])) {
 				let nested = [key];
+				console.log("key", key)
 				dataArray.forEach(loo => {
 					nested.push(...Object.keys(loo[key]))
 				})
 				
-				return Array.from(new Set(nested));
+				return [...Array.from(new Set(nested))];
 			}
 
         return key;
     })}
 
 	function makeCols(keyArray)  {
-		return keyArray.map(key => {
+		let res = [];
+		keyArray.forEach(key => {
 			if(Array.isArray(key)) {
-				console.log("1 make cols ", key[0])
 				const header = key.shift();
-				return {
-					Header: header,
-					accessor: `${header}`,
-					columns: [
-						key.map(k => {
-							return {
-								Header: k.charAt(0).toUpperCase() + k.slice(1),
-								accessor: `${k}`,
-							}
-						})
-					]
-				}
-			} 
-			
-			return {
-				Header: key.charAt(0).toUpperCase() + key.slice(1),
-				accessor: key
+				res.push(...key.map(k => ({
+					Header: k.charAt(0).toUpperCase() + k.slice(1),
+					accessor: `${header}.${k}`
+				})))
+				
+			} else {
+				res.push({
+					Header: key.charAt(0).toUpperCase() + key.slice(1),
+					accessor: key
+				}) 
 			}
 
 		});
+		console.log("res", res)
+
+		return res;
 	}
-	// 	return keyArray.map(key => ({
-	// 		Header: key.charAt(0).toUpperCase() + key.slice(1),
-	// 		accessor: key
-	// 	}));
-	// }
 
 	const data = React.useMemo(() => props.data ,[]);
 	const colHeaderArray = getKeyArray(props.data);
+	console.log("1. ", colHeaderArray)
 	const cols = makeCols(colHeaderArray);
-	
+	console.log("2. ", cols)
 	const columns = React.useMemo(() => cols,[]);
-		console.log("2. ", columns)
+		console.log("3. ", columns)
 	const {
 		getTableProps,
 		getTableBodyProps,
