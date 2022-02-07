@@ -102,9 +102,6 @@ export default function Table(props) {
     	})
 		return keys;
 	}
-
-	// TODO: addRow visually
-	// TODO: addRow -> save row -> save Over row.id OR push new row
 	
 	const headers = getKeyArray(props.data) ?? "";
 	const isDino = props.tableName === "dinosaurs";
