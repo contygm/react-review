@@ -2,53 +2,59 @@ import React from "react"
 
 export default function Table(props) {
 	
-	// function getKeyArray(dataArray) {
-    //     return Object.keys(dataArray[0]).map(key => {
-	// 		if(typeof dataArray[0][key] === 'object' && !Array.isArray(dataArray[0][key])) {
-	// 			let nested = [key];
-	// 			console.log("key", key)
-	// 			dataArray.forEach(loo => {
-	// 				nested.push(...Object.keys(loo[key]))
-	// 			})
-				
-	// 			return [...Array.from(new Set(nested))];
-	// 		}
+	function getKeyArray(dataArray) {
+		let keys = [];
+		console.log(dataArray)
+       	Object.keys(dataArray[0]).forEach(key => {
+			if(typeof dataArray[0][key] === 'object' && !Array.isArray(dataArray[0][key])) {
+				let nested = [];
+				dataArray.forEach(loo => {
+					nested.push(...Object.keys(loo[key]))
+				})
+				console.log("nested ", nested)
+				keys.push(...Array.from(new Set(nested)));
+			} else {
+				keys.push(key);
+			}
 
-    //     return key;
-    // })}
+    	})
+		return keys;
+	}
 
-	// function makeCols(keyArray)  {
-	// 	let res = [];
-	// 	keyArray.forEach(key => {
-	// 		if(Array.isArray(key)) {
-	// 			const header = key.shift();
-	// 			res.push(...key.map(k => ({
-	// 				Header: k.charAt(0).toUpperCase() + k.slice(1),
-	// 				accessor: `${header}.${k}`
-	// 			})))
-				
-	// 		} else {
-	// 			res.push({
-	// 				Header: key.charAt(0).toUpperCase() + key.slice(1),
-	// 				accessor: key
-	// 			}) 
-	// 		}
+	const headers = getKeyArray(props.data);
+	function getRows(row) {
+		let rows = [];
 
-	// 	});
-
-	// 	return res;
-	// }
-
-	// const Buttons = () => (
-	// 	<div>
-	// 		<button onClick={(e) => props.deleteDino(id)}>Delete</button>
-	// 		<button>Edit</button>
-	// 	</div>
-	// )
+		Object.keys(row).forEach((key, j) => {
+			const cell = row[key];
+			if(typeof cell === "object" && !Array.isArray(cell)) {
+				return Object.keys(cell).forEach((subKey, i) => {
+					rows.push(<td key={i} >{cell[subKey] === undefined ? "N/a" : cell[subKey]}</td>)
+				})
+			}
+			rows.push(<td key={j} >{row[key]}</td>)
+		})
+		return rows;
+	}
 
     return (
        <div>
-	   		{props.tableName}
+	   		<h1>{props.tableName}</h1>
+			<table className="table table-striped">
+				<thead>
+					<tr>
+						{headers.map((h, i) => <th key={i} scope="col">{h}</th>)}
+					</tr>
+				</thead>
+				<tbody>
+					{props.data.map((row, i) => {
+						return <tr key={i}>
+							{getRows(row)}
+							
+						</tr>
+					})}
+				</tbody>
+			</table>
 		</div>
     )
 }
