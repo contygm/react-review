@@ -23,10 +23,8 @@ export default function App() {
                 className="split"
                 gutterSize={5}
             >
-                
                 <Sidebar tableNames={tableNames} setCurrentTable={setCurrentTable}/>
                 <TableView data={allData} currentTable={currentTable}/>
-            
             </Split>
         </div>
         

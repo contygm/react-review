@@ -48,7 +48,7 @@ export default function Table(props) {
 
     return (
        <div>
-	   	Look some tables
+	   		{props.tableName}
 		</div>
     )
 }

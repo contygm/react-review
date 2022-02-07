@@ -5,17 +5,16 @@ export default function TableView(props) {
 
 	return( 
 		<section className="table-view">
-		{/* {
-			props.data.map((table, i) => {
-				console.log(table)
-				return <Table key={i}/>
+
+		{props.currentTable === "all" ?
+			Object.keys(props.data).map(key => {
+				console.log(key)
+				return <Table key={key} data={props.data[key]} tableName={key}/>
 			})
-		} */}
-		{props.currentTable}
-			
-			{/* <Table data={dino} deleteDino={deleteDino}/>
-            <Table data={habitat} />
-            <Table data={loot} /> */}
+		:
+			<Table data={props.data[props.currentTable]} tableName={props.currentTable}/>
+		}
+
 		</section>
 	)
 }
