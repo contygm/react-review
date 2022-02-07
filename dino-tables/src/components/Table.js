@@ -60,6 +60,26 @@ function getCells(row, isDino, editDinoData, handleEditDinoChange) {
 	return cells;
 }
 
+const AddDino = props => {
+	return <div>
+		{props.addDinoData && props.addDinoData.id ?
+			<div>
+				<Button onClick={(e) => props.handleSaveClick(e, "add")}>Save</Button>
+				<Button onClick={(e) => props.handleCancelClick(e)}>Cancel</Button>
+				{props.headers.map(h => 
+					<div class="form-group">
+						<label for={h}>{h}</label>
+						<input name={h} type="text" class="form-control" onChange={(e) => props.handleAddDinoChange(e)} />
+					</div>
+				)}
+			</div>
+		: 
+			<Button onClick={(e) => props.handleAddClick(e)}>Add</Button>
+		}
+		</div>
+	
+}
+
 export default function Table(props) {
 
 	function getKeyArray(dataArray) {
@@ -92,7 +112,7 @@ export default function Table(props) {
     return (
        <div>
 	   		<h1>{props.tableName}</h1>
-			{isDino && <Button>Add</Button>}
+			{isDino && <AddDino addDinoData={props.addDinoData} setAddDinoData={props.setAddDinoData} handleAddClick={props.handleAddClick} handleAddDinoChange={props.handleAddDinoChange} handleCancelClick={props.handleCancelClick} headers={headers} handleSaveClick={props.handleSaveClick} />}
 			{props.data.length !== 0 ? <table className="table table-striped">
 				<thead>
 					<tr>
@@ -101,7 +121,7 @@ export default function Table(props) {
 					</tr>
 				</thead>
 				<tbody>
-					<Rows data={props.data} isDino={isDino} editDinoData={props.editDinoData} handleEditClick={props.handleEditClick} deleteRow={props.deleteRow} handleEditDinoChange={props.handleEditDinoChange} handleCancelClick={props.handleCancelClick} handleSaveClick={props.handleSaveClick}/> 
+					<Rows data={props.data} isDino={isDino} editDinoData={props.editDinoData} handleEditClick={props.handleEditClick} deleteRow={props.deleteRow} handleEditDinoChange={props.handleEditDinoChange} handleCancelClick={props.handleCancelClick} /> 
 				</tbody>
 			</table> : "No rows"}
 		</div>

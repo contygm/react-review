@@ -19,16 +19,24 @@ export default function TableView(props) {
 		setEditDinoData(newFormData);
 	};
 
+	function handleAddDinoChange(event) {
+		event.preventDefault();
+
+		const key = event.target.getAttribute("name");
+		const value = event.target.value;
+
+		const newFormData = { ...addDinoData };
+		newFormData[key] = value;
+		console.log(newFormData, key, value)
+		setAddDinoData(newFormData);
+	};
+
 	function handleSaveClick(event, type) {
 		event.preventDefault();
 		if(type === "add") {
-			setDino(prevDinos => {
-				prevDinos.map(dino => dino.id === addDinoData.id ? addDinoData : dino)
-			})
+			setDino(prevDinos => [...prevDinos, addDinoData])
 			setAddDinoData({});
 		} else {
-			console.log(editDinoData.id)
-			console.log(dino.map(d => d.id === editDinoData.id ? editDinoData : d))
 
 			setDino(dino.map(d => d.id === editDinoData.id ? editDinoData : d));
 			setEditDinoData({});
@@ -38,6 +46,22 @@ export default function TableView(props) {
 	const handleEditClick = (event, dinoObj) => {
 		event.preventDefault();
 		setEditDinoData(dinoObj);
+	};
+
+	const handleAddClick = (event, dinoObj) => {
+		event.preventDefault();
+		setAddDinoData({
+			id: dino.length,
+            name: "",
+            description:"",
+            habitats: [],
+            image:"",
+            price:"",
+            level_unlock:"",
+            active_time:"",
+            loot:"",
+            loot_interval:""
+		});
 	};
 
 	const handleCancelClick = (event) => {
@@ -63,9 +87,13 @@ export default function TableView(props) {
 						tableName="dinosaurs" 
 						editDinoData={editDinoData}
 						deleteRow={deleteRow} 
+						addDinoData={addDinoData}
+						setAddDinoData={setAddDinoData}
 						handleEditClick={handleEditClick} 
 						handleCancelClick={handleCancelClick}
 						handleEditDinoChange={handleEditDinoChange}
+						handleAddClick={handleAddClick}
+						handleAddDinoChange={handleAddDinoChange}
 						handleSaveClick={handleSaveClick}
 					/> :
 				 	<Table key={key} data={props.allData[key]} tableName={key} deleteRow={deleteRow}/>
@@ -77,9 +105,12 @@ export default function TableView(props) {
 					tableName={props.currentTable} 
 					deleteRow={deleteRow} 
 					editDinoData={editDinoData}
+					addDinoData={addDinoData}
+					setAddDinoData={setAddDinoData}
 					handleEditClick={handleEditClick} 
 					handleCancelClick={handleCancelClick}
 					handleEditDinoChange={handleEditDinoChange}
+					handleAddClick={handleAddClick}
 					handleSaveClick={handleSaveClick}
 				/> : 
 				<Table data={props.allData[props.currentTable]} tableName={props.currentTable} deleteRow={deleteRow}/>
