@@ -26,6 +26,9 @@ body {
   background-repeat: no-repeat;
   background-position: 50%;
 }
+.gutter.gutter-horizontal:hover {
+  background-color: black;
+}
 
 .gutter.gutter-horizontal:hover {
   cursor: col-resize;
