@@ -9,7 +9,7 @@ export default function FormCell(props) {
 				required="required"
 				name={props.name}
 				value={props.value}
-				// onChange={handleEditFormChange}
+				onChange={(e) => props.handleEditDinoChange(e)}
 			></input>
 		</td>
 	)

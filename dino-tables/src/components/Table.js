@@ -1,11 +1,67 @@
 import React from "react"
 import ReadonlyCell from "./ReadonlyCell"
 import FormCell from "./FormCell"
-import {nanoid} from "nanoid"
 import Button from 'react-bootstrap/Button';
 
+const Rows = props => {
+	return props.data.map((row, i) => {
+		const rowData = (props.editDinoData && row.id === props.editDinoData.id )? props.editDinoData : row;
+		return <tr key={i}>
+			{getCells(rowData, props.isDino, props.editDinoData, props.handleEditDinoChange)}
+
+			{props.isDino && <td>
+				
+				<Buttons rowData={rowData} row={row} editDinoData={props.editDinoData} handleEditClick={props.handleEditClick} deleteRow={props.deleteRow} handleCancelClick={props.handleCancelClick} handleSaveClick={props.handleSaveClick}/>
+			
+			</td>}
+		</tr>
+	})
+}
+
+const Buttons = props => {
+	return props.editDinoData && props.row.id === props.editDinoData.id  ?
+		<div>
+			<Button onClick={(e) => props.handleSaveClick(e, "edit")}>Save</Button>
+			<Button onClick={(e) => props.handleCancelClick(e)}>Cancel</Button>
+		</div>
+		: 
+		<div>
+			<Button onClick={(e) => props.handleEditClick(e, props.rowData)}>Edit</Button>
+			<Button onClick={(e) => props.deleteRow(e, props.row.id)}>Delete</Button>
+		</div>
+		
+}
+
+function getCells(row, isDino, editDinoData, handleEditDinoChange) {
+	let cells = [];
+	const currentlyEditing = editDinoData && row.id === editDinoData.id;
+	if(!isDino || !currentlyEditing) { // readonly rows
+		Object.keys(row).forEach(key => {
+			const cell = row[key];
+			if(typeof cell === "object" && !Array.isArray(cell)) {
+				return Object.keys(cell).forEach(subKey => {
+					cells.push(<ReadonlyCell key={`${key}-${subKey}-${cell[subKey]}`} value={cell[subKey]}/>)
+				})
+			}
+			cells .push(<ReadonlyCell key={`${key}-${key}-${row[key]}`} value={row[key]}/>)
+		})
+	} else { // editable rows
+		Object.keys(row).forEach(key => {
+			const cell = row[key];
+			if(typeof cell === "object" && !Array.isArray(cell)) {
+				return Object.keys(cell).forEach(subKey => {
+					cells.push(<FormCell key={`${subKey}-${cell[subKey]}`} value={cell[subKey]} name={key} handleEditDinoChange={handleEditDinoChange}/>)
+				})
+			}
+			cells.push(<FormCell key={`${key}_${row[key]}`} value={row[key]} name={key} handleEditDinoChange={handleEditDinoChange}/>)
+		})
+	}
+
+	return cells;
+}
+
 export default function Table(props) {
-	
+
 	function getKeyArray(dataArray) {
 		if(dataArray.length === 0) {
 			return [];
@@ -29,39 +85,10 @@ export default function Table(props) {
 
 	// TODO: addRow visually
 	// TODO: addRow -> save row -> save Over row.id OR push new row
-	// TODO: save edits
 	
-	// TODO: refactor
-	function getRows(row, isDino) {
-		let rows = [];
-		if(!isDino) { // readonly rows
-			Object.keys(row).forEach(key => {
-				const cell = row[key];
-				if(typeof cell === "object" && !Array.isArray(cell)) {
-					return Object.keys(cell).forEach(subKey => {
-						rows.push(<ReadonlyCell key={nanoid()} value={cell[subKey]}/>)
-					})
-				}
-				rows.push(<ReadonlyCell key={nanoid()} value={row[key]}/>)
-			})
-		} else { // editable rows
-			Object.keys(row).forEach(key => {
-				const cell = row[key];
-				if(typeof cell === "object" && !Array.isArray(cell)) {
-					return Object.keys(cell).forEach(subKey => {
-						rows.push(<FormCell key={nanoid()} value={cell[subKey]} name={key}/>)
-					})
-				}
-				rows.push(<FormCell key={nanoid()} value={row[key]} name={key}/>)
-			})
-		}
-
-		return rows;
-	}
-
+	const headers = getKeyArray(props.data) ?? "";
 	const isDino = props.tableName === "dinosaurs";
 
-	const headers = getKeyArray(props.data) ?? "";
     return (
        <div>
 	   		<h1>{props.tableName}</h1>
@@ -69,20 +96,12 @@ export default function Table(props) {
 			{props.data.length !== 0 ? <table className="table table-striped">
 				<thead>
 					<tr>
-						{headers.map((h, i) => <th key={nanoid()} scope="col">{h}</th>)}
+						{headers.map((h, i) => <th key={`${i}-${h}`} scope="col">{h}</th>)}
 						{isDino && <th scope="col">Actions</th>}
 					</tr>
 				</thead>
 				<tbody>
-					{props.data.map((row, i) => {
-						return <tr key={nanoid()}>
-							{getRows(row, isDino)}
-							{isDino && <td>
-								<Button>Edit</Button>
-								<Button onClick={(e) => props.deleteRow(e, row.id)}>Delete</Button>
-							</td>}
-						</tr>
-					})}
+					<Rows data={props.data} isDino={isDino} editDinoData={props.editDinoData} handleEditClick={props.handleEditClick} deleteRow={props.deleteRow} handleEditDinoChange={props.handleEditDinoChange} handleCancelClick={props.handleCancelClick} handleSaveClick={props.handleSaveClick}/> 
 				</tbody>
 			</table> : "No rows"}
 		</div>
