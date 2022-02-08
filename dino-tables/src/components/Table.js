@@ -118,7 +118,7 @@ export default function Table(props) {
 					</tr>
 				</thead>
 				<tbody>
-					<Rows data={props.data} isDino={isDino} editDinoData={props.editDinoData} handleEditClick={props.handleEditClick} deleteRow={props.deleteRow} handleEditDinoChange={props.handleEditDinoChange} handleCancelClick={props.handleCancelClick} /> 
+					<Rows data={props.data} isDino={isDino} editDinoData={props.editDinoData} handleEditClick={props.handleEditClick} deleteRow={props.deleteRow} handleEditDinoChange={props.handleEditDinoChange} handleCancelClick={props.handleCancelClick} handleSaveClick={props.handleSaveClick}/> 
 				</tbody>
 			</table> : "No rows"}
 		</div>
